@@ -104,7 +104,7 @@ class CustomMainWindow(QMainWindow):
 
         # Button
         self.goBtn = QPushButton(text = 'GO')
-        # self.goBtn.clicked.connect(self.buttonGo)
+        self.goBtn.clicked.connect(self.buttonGo)
         self.left_grid.addWidget(self.goBtn, 4, 0, 1, 2)
 
         # Place the matplotlib figure
@@ -132,7 +132,6 @@ class CustomMainWindow(QMainWindow):
         self.Q_ax.xaxis.set_major_locator(plt.MultipleLocator(np.pi / 2))
         self.Q_ax.xaxis.set_major_formatter(plt.FuncFormatter(pi_multiple_formatter))
 
-
         self.fig.gca().set_aspect('equal', adjustable='box')
         self.myFig = FigureCanvas(self.fig)
         self.LAYOUT_A.addWidget(self.left_gb, 0, 0)
@@ -141,6 +140,16 @@ class CustomMainWindow(QMainWindow):
         self.LAYOUT_A.setColumnStretch(1, 4)
 
         self.show()
+    
+    def buttonGo(self):
+        l_value = int(self.l_input.text())
+        c_value = int(self.c_input.text())
+        r_value = int(self.r_input.text())
+        v_value = int(self.v_input.text())
+        print(f'L  : {l_value} [mH]')
+        print(f'C  : {c_value} [nF]')
+        print(f'R  : {c_value} [ohm]')
+        print(f'V_m: {c_value} [V]')
 
 if __name__== '__main__':
     app = QApplication(sys.argv)
