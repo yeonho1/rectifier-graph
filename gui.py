@@ -8,6 +8,7 @@ matplotlib.use("qtagg")
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+import core
 
 def setCustomSize(x, width, height):
     sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -43,8 +44,7 @@ class CustomMainWindow(QMainWindow):
     curr_m = 0
 
     phase_min = 0
-    phase_max = 2 * np.pi
-    phase_xticks = np.linspace(phase_min, phase_max, 5)
+    phase_max = 6 * np.pi
 
     def __init__(self):
 
@@ -150,6 +150,9 @@ class CustomMainWindow(QMainWindow):
         print(f'C  : {c_value} [nF]')
         print(f'R  : {c_value} [Ω]')
         print(f'V_m: {c_value} [V]')
+        x, v, i, q = core.calculate(l_value, c_value, r_value, v_value)
+        self.V_ax.scatter(x, v, s=0.1, color='r')
+        self.myFig.draw()
 
 if __name__== '__main__':
     app = QApplication(sys.argv)
