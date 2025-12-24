@@ -81,7 +81,7 @@ class CustomMainWindow(QMainWindow):
 
         # R : capacitor
         self.resistor_lbl = QLabel(self)
-        self.resistor_lbl.setText("R [ohm]")
+        self.resistor_lbl.setText("R [Ω]")
         self.resistor_lbl.setAlignment(QtCore.Qt.AlignCenter)
         self.r_input = QLineEdit(self)
 
@@ -148,7 +148,7 @@ class CustomMainWindow(QMainWindow):
         v_value = int(self.v_input.text())
         print(f'L  : {l_value} [mH]')
         print(f'C  : {c_value} [nF]')
-        print(f'R  : {c_value} [ohm]')
+        print(f'R  : {c_value} [Ω]')
         print(f'V_m: {c_value} [V]')
 
 if __name__== '__main__':
