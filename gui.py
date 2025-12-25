@@ -146,7 +146,8 @@ class CustomMainWindow(QMainWindow):
         # self.Q_ax.xaxis.set_major_locator(plt.MultipleLocator(np.pi / 2))
         # self.Q_ax.xaxis.set_major_formatter(plt.FuncFormatter(pi_multiple_formatter))
 
-        self.fig.gca().set_aspect('equal', adjustable='box')
+        self.fig.gca().set_aspect('auto')
+        self.fig.tight_layout()
         self.myFig = FigureCanvas(self.fig)
         self.LAYOUT_A.addWidget(self.left_gb, 0, 0)
         self.LAYOUT_A.addWidget(self.myFig, 0, 1)
