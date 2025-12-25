@@ -78,18 +78,27 @@ class CustomMainWindow(QMainWindow):
         self.capacitor_lbl.setText("C [nF]")
         self.capacitor_lbl.setAlignment(QtCore.Qt.AlignCenter)
         self.c_input = QLineEdit(self)
+        self.c_input.setValidator(self.dValidator)
 
         # R : capacitor
         self.resistor_lbl = QLabel(self)
         self.resistor_lbl.setText("R [Ω]")
         self.resistor_lbl.setAlignment(QtCore.Qt.AlignCenter)
         self.r_input = QLineEdit(self)
+        self.r_input.setValidator(self.dValidator)
 
         # V_m : maximum voltage
         self.voltage_lbl = QLabel(self)
         self.voltage_lbl.setText("V_m [V]")
         self.voltage_lbl.setAlignment(QtCore.Qt.AlignCenter)
         self.v_input = QLineEdit(self)
+        self.v_input.setValidator(self.dValidator)
+
+        self.frequency_lbl = QLabel(self)
+        self.frequency_lbl.setText("f [Hz]")
+        self.frequency_lbl.setAlignment(QtCore.Qt.AlignCenter)
+        self.f_input = QLineEdit(self)
+        self.f_input.setValidator(self.dValidator)
 
         self.left_grid = QGridLayout()
         self.left_gb.setLayout(self.left_grid)
@@ -101,11 +110,13 @@ class CustomMainWindow(QMainWindow):
         self.left_grid.addWidget(self.r_input, 2, 1)
         self.left_grid.addWidget(self.voltage_lbl, 3, 0)
         self.left_grid.addWidget(self.v_input, 3, 1)
+        self.left_grid.addWidget(self.frequency_lbl, 4, 0)
+        self.left_grid.addWidget(self.f_input, 4, 1)
 
         # Button
         self.goBtn = QPushButton(text = 'GO')
         self.goBtn.clicked.connect(self.buttonGo)
-        self.left_grid.addWidget(self.goBtn, 4, 0, 1, 2)
+        self.left_grid.addWidget(self.goBtn, 5, 0, 1, 2)
 
         # Place the matplotlib figure
         self.fig = plt.Figure()
@@ -118,19 +129,22 @@ class CustomMainWindow(QMainWindow):
         self.I_ax.set_aspect('auto')
         self.Q_ax.set_aspect('auto')
 
-        self.V_ax.set_xlim(self.phase_min, self.phase_max)
+        # self.V_ax.set_xlim(self.phase_min, self.phase_max)
+        self.V_ax.set_xlim(0, 1)
         self.V_ax.set_ylim(-150, 150)
-        self.I_ax.set_xlim(self.phase_min, self.phase_max)
+        # self.I_ax.set_xlim(self.phase_min, self.phase_max)
+        self.I_ax.set_xlim(0, 1)
         self.I_ax.set_ylim(-150, 150)
-        self.Q_ax.set_xlim(self.phase_min, self.phase_max)
+        # self.Q_ax.set_xlim(self.phase_min, self.phase_max)
+        self.Q_ax.set_xlim(0, 1)
         self.Q_ax.set_ylim(-150, 150)
 
-        self.V_ax.xaxis.set_major_locator(plt.MultipleLocator(np.pi / 2))
-        self.V_ax.xaxis.set_major_formatter(plt.FuncFormatter(pi_multiple_formatter))
-        self.I_ax.xaxis.set_major_locator(plt.MultipleLocator(np.pi / 2))
-        self.I_ax.xaxis.set_major_formatter(plt.FuncFormatter(pi_multiple_formatter))
-        self.Q_ax.xaxis.set_major_locator(plt.MultipleLocator(np.pi / 2))
-        self.Q_ax.xaxis.set_major_formatter(plt.FuncFormatter(pi_multiple_formatter))
+        # self.V_ax.xaxis.set_major_locator(plt.MultipleLocator(np.pi / 2))
+        # self.V_ax.xaxis.set_major_formatter(plt.FuncFormatter(pi_multiple_formatter))
+        # self.I_ax.xaxis.set_major_locator(plt.MultipleLocator(np.pi / 2))
+        # self.I_ax.xaxis.set_major_formatter(plt.FuncFormatter(pi_multiple_formatter))
+        # self.Q_ax.xaxis.set_major_locator(plt.MultipleLocator(np.pi / 2))
+        # self.Q_ax.xaxis.set_major_formatter(plt.FuncFormatter(pi_multiple_formatter))
 
         self.fig.gca().set_aspect('equal', adjustable='box')
         self.myFig = FigureCanvas(self.fig)
@@ -146,11 +160,13 @@ class CustomMainWindow(QMainWindow):
         c_value = int(self.c_input.text())
         r_value = int(self.r_input.text())
         v_value = int(self.v_input.text())
+        f_value = int(self.f_input.text())
         print(f'L  : {l_value} [mH]')
         print(f'C  : {c_value} [nF]')
         print(f'R  : {c_value} [Ω]')
         print(f'V_m: {c_value} [V]')
-        x, v, i, q = core.calculate(l_value, c_value, r_value, v_value)
+        print(f'f  : {f_value} [Hz]')
+        x, v, i, q = core.calculate(l_value, c_value, r_value, v_value, f_value)
         self.V_ax.scatter(x, v, s=0.1, color='r')
         self.myFig.draw()
 
